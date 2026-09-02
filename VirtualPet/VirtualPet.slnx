@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="VirtualPet.Application/VirtualPet.Application.csproj" />
+    <Project Path="VirtualPet.Domain/VirtualPet.Domain.csproj" />
+    <Project Path="VirtualPet.Infrastructure/VirtualPet.Infrastructure.csproj" />
+    <Project Path="VirtualPet.Web/VirtualPet.Web.csproj" Id="ab8926ff-3951-4571-b32e-08b4a362b311" />
+  </Folder>
+  <Folder Name="/tests/" />
+</Solution>
