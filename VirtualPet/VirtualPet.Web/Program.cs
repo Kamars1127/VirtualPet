@@ -1,7 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using VirtualPet.Infrastructure.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<VirtualPetDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("VirtualPetDatabase")));
 
 var app = builder.Build();
 
