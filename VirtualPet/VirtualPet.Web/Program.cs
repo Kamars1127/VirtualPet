@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using VirtualPet.Application.Repositories;
+using VirtualPet.Application.Services;
+using VirtualPet.Domain.Services;
 using VirtualPet.Infrastructure.Data;
+using VirtualPet.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<VirtualPetDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("VirtualPetDatabase")));
+builder.Services.AddScoped<IPetRepository, PetRepository>();
+builder.Services.AddScoped<PetApplicationService>();
+builder.Services.AddSingleton<PetEvolutionService>();
 
 var app = builder.Build();
 

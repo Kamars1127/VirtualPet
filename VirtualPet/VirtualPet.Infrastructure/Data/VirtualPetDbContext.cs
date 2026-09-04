@@ -23,7 +23,7 @@ namespace VirtualPet.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new PetConfiguration);
+            modelBuilder.ApplyConfiguration(new PetConfiguration());
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using VirtualPet.Domain.Enums;
+﻿using VirtualPet.Domain.Enums;
 using VirtualPet.Domain.Exceptions;
 using VirtualPet.Domain.ValueObjects;
 
@@ -10,10 +9,18 @@ namespace VirtualPet.Domain.Entities
     /// </summary>
     public class Pet
     {
+        private readonly List<PetHistory> _histories = [];
+
         /// <summary>
         /// 唯一識別碼
         /// </summary>
         public Guid Id { get; private set; }
+
+        /// <summary>
+        /// 所屬玩家 Id
+        /// </summary>
+        public Guid UserId { get; private set; }
+
 
         #region /*--- State ---*/
         /// <summary>
@@ -60,13 +67,23 @@ namespace VirtualPet.Domain.Entities
         
         #endregion
 
+        /// <summary>
+        /// Pet 的操作紀錄
+        /// </summary>
+        public IReadOnlyCollection<PetHistory> Histories => _histories.AsReadOnly();
+
         private Pet()
         {
             Name = string.Empty;
         }
 
-        public Pet(string name, PetSpecies species)
+        public Pet(Guid userId, string name, PetSpecies species)
         {
+            if(userId == Guid.Empty)
+            {
+                throw new ArgumentException("User id cannot be empty.", nameof(userId));
+            }
+
             //寵物名稱不能為空
             if (string.IsNullOrWhiteSpace(name))
             {
