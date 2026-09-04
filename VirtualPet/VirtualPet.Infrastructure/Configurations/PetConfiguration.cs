@@ -27,6 +27,11 @@ namespace VirtualPet.Infrastructure.Configurations
                 statusBuilder.Property(s => s.Happiness).IsRequired();
                 statusBuilder.Property(s => s.Energy).IsRequired();
             });
+
+            builder.HasMany(pet => pet.Histories)
+                .WithOne(history => history.pet)
+                .HasForeignKey(history => history.PetId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

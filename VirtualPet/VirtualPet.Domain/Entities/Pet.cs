@@ -21,6 +21,7 @@ namespace VirtualPet.Domain.Entities
         /// </summary>
         public Guid UserId { get; private set; }
 
+        public User User { get; private set; }
 
         #region /*--- State ---*/
         /// <summary>

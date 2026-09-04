@@ -19,6 +19,11 @@ namespace VirtualPet.Application.Repositories
         Task<IReadOnlyList<Pet>> GetAllAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// 取得某個玩家的所有 Pet
+        /// </summary>
+        Task<IReadOnlyList<Pet>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// 新增 Pet
         /// </summary>
         Task AddAsync(Pet pet, CancellationToken cancellationToken = default);

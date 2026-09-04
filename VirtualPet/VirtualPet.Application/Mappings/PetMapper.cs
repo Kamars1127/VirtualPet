@@ -18,6 +18,7 @@ namespace VirtualPet.Application.Mappings
             return new PetDto
             {
                 Id = pet.Id,
+                UserId = pet.UserId,
                 Name = pet.Name,
                 Species = pet.Species,
                 EvolutionStage = pet.EvolutionStage,

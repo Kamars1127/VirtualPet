@@ -13,6 +13,11 @@ namespace VirtualPet.Application.DTOs
         public Guid Id { get; init; }
 
         /// <summary>
+        /// 所屬玩家 Id
+        /// </summary>
+        public Guid UserId { get; init; }
+
+        /// <summary>
         /// 名稱
         /// </summary>
         public string Name { get; init; } = string.Empty;

@@ -13,11 +13,17 @@ namespace VirtualPet.Application.Services
     public sealed class PetApplicationService
     {
         private readonly IPetRepository _petRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IPetHistoryRepository _petHistoryRepository;
         private readonly PetEvolutionService _petEvolutionService;
 
-        public PetApplicationService(IPetRepository petRepository, PetEvolutionService petEvolutionService)
+
+        public PetApplicationService(IPetRepository petRepository, IUserRepository userRepository, 
+                                        IPetHistoryRepository petHistoryRepository, PetEvolutionService petEvolutionService,)
         {
             _petRepository = petRepository ?? throw new ArgumentNullException(nameof(petRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _petHistoryRepository = petHistoryRepository ?? throw new ArgumentNullException(nameof(petHistoryRepository));
             _petEvolutionService = petEvolutionService ?? throw new ArgumentNullException(nameof(petEvolutionService));
         }
 
@@ -27,11 +33,23 @@ namespace VirtualPet.Application.Services
         /// <param name="name">寵物名稱</param>
         /// <param name="species">寵物種類</param>
         /// <returns></returns>
-        public async Task<PetDto> CreatePet(string name, PetSpecies species, CancellationToken cancellationToken = default)
+        public async Task<PetDto> CreatePetAsync(Guid userId, string name, PetSpecies species, CancellationToken cancellationToken = default)
         {
-            var pet = new Pet(name, species);
+            var user = await _userRepository.GetByIdAsync(userId, cancellationToken);
+
+            if(user is null)
+            {
+                throw new KeyNotFoundException($"User with id '{userId}' was not found.");
+            }
+
+            var pet = new Pet(userId, name, species);
 
             await _petRepository.AddAsync(pet, cancellationToken);
+
+            var history = new PetHistory(pet.Id, PetHistoryType.Create, $"Pet '{pet.Name} was created.'");
+
+            await _petHistoryRepository.AddAsync(history, cancellationToken);
+
             await _petRepository.SaveChangesAsync(cancellationToken);
 
             return PetMapper.ToDto(pet);
@@ -73,6 +91,9 @@ namespace VirtualPet.Application.Services
 
             await _petRepository.SaveChangesAsync(cancellationToken);
 
+            var history = new PetHistory(pet.Id, PetHistoryType.Feed, $"Fed pet '{pet.Name}'.");
+            await _petHistoryRepository.AddAsync(history, cancellationToken);
+
             return new PetActionResultDto
             {
                 Pet = PetMapper.ToDto(pet),
@@ -92,6 +113,8 @@ namespace VirtualPet.Application.Services
 
             var evolved = _petEvolutionService.TryEvolve(pet);
 
+            var history = new PetHistory(pet.Id, PetHistoryType.Play, $"Played with pet '{pet.Name}'.");
+            await _petHistoryRepository.AddAsync(history, cancellationToken);
             await _petRepository.SaveChangesAsync(cancellationToken);
 
             return new PetActionResultDto
@@ -112,6 +135,9 @@ namespace VirtualPet.Application.Services
             pet.Rest();
 
             var evolved = _petEvolutionService.TryEvolve(pet);
+
+            var history = new PetHistory(pet.Id, PetHistoryType.Rest, $"Pet '{pet.Name}' rested.");
+            await _petHistoryRepository.AddAsync(history, cancellationToken);
 
             await _petRepository.SaveChangesAsync(cancellationToken);
 
@@ -135,9 +161,31 @@ namespace VirtualPet.Application.Services
 
             var evolved = _petEvolutionService.TryEvolve(pet);
 
+            var history = new PetHistory(pet.Id, PetHistoryType.GainExperience, $"Pet '{pet.Name}' gained {experience} experience.");
+            await _petHistoryRepository.AddAsync(history, cancellationToken);
+
             await _petRepository.SaveChangesAsync(cancellationToken);
 
             return new PetActionResultDto { Pet = PetMapper.ToDto(pet), Evolved = evolved };
+        }
+
+        /// <summary>
+        /// 取得某位玩家的所有 Pet
+        /// </summary>
+        public async Task<IReadOnlyList<PetDto>> GetPetsByUserAsync(Guid userId, CancellationToken cancellationToken = default)
+        {
+            var pets = await _petRepository.GetByUserIdAsync(userId, cancellationToken);
+
+            return pets.Select(PetMapper.ToDto).ToList();
+        }
+
+        public async Task<IReadOnlyList<PetHistoryDto>> GetPetHistoriesAsync(Guid petId, CancellationToken cancellationToken = default)
+        {
+            await GetRequiredPetAsync(petId, cancellationToken);
+
+            var histories = await _petHistoryRepository.GetByPetIdAsync(petId, cancellationToken);
+
+            return histories.Select(PetHistoryMapper.ToDto).ToList();
         }
 
         /// <summary>

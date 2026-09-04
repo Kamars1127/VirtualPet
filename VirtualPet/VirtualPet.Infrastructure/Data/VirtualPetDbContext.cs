@@ -14,15 +14,21 @@ namespace VirtualPet.Infrastructure.Data
 
         }
 
+       
+        public DbSet<User> Users => Set<User>();
+
         /// <summary>
         /// Pet 資料表
         /// </summary>
         public DbSet<Pet> Pets => Set<Pet>();
 
+        public DbSet<PetHistory> PetHistories => Set<PetHistory>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.ApplyConfiguration(new )
             modelBuilder.ApplyConfiguration(new PetConfiguration());
         }
     }
