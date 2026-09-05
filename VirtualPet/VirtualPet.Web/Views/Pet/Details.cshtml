@@ -1,0 +1,98 @@
+﻿@model PetDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Pet.Name;
+}
+
+<div class="mb-4">
+    <a asp-controller="Pet" asp-action="Index" class="btn btn-outline-secondary">← Back</a>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="card-title">@Model.Pet.Name</h1>
+                <hr />
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Species</strong>
+                        <div>@Model.Pet.Species</div>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Evolution Stage</strong>
+                        <div>@Model.Pet.EvolutionStage</div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Level</strong>
+                        <div>@Model.Pet.Level</div>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Experience</strong>
+                        <div>@Model.Pet.Experience / 100</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <strong>State</strong>
+                    <div>@Model.Pet.State</div>
+                </div>
+
+                <hr />
+
+                <h4>Status</h4>
+
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span>Satiety</span>
+                        <span>@Model.Pet.Satiety / 100</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: @Model.Pet.Satiety%"></div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span>Happiness</span>
+                        <span>@Model.Pet.Happiness / 100</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: @Model.Pet.Happiness%"></div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span>Energy</span>
+                        <span>@Model.Pet.Energy / 100</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: @Model.Pet.Energy%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h4>Actions</h4>
+
+            <div class="d-grid gap-2">
+                <form asp-controller="Pet" asp-action="Feed" asp-route-id="@Model.Pet.Id" method="post">
+                    <button type="submit" class="btn btn-success w-100">Feed</button>
+                </form>
+
+                <form asp-controller="Pet" asp-action="Play" asp-route-id="@Model.Pet.Id" method="post">
+                    <button type="submit" class="btn btn-primary w-100">Play</button>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>

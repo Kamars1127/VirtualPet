@@ -1,0 +1,37 @@
+﻿@model IReadOnlyList<PetDto>
+
+@{
+    ViewData["Title"] = "Pets";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1>My Pets</h1>
+        <p class="text-muted mb-0">查看目前所有虛擬寵物</p>
+    </div>
+</div>
+
+@if(Model.Count == 0)
+{
+    <div class="alert alert-info">目前還沒有任何寵物</div>
+}
+else
+{
+   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+       @foreach(var pet in Model){
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title">@pet.Name</h3>
+                        <p class="card-text mb-1">Species: @pet.Species</p>
+                        <p class="card-text mb-1">Stage: @pet.EvolutionStage</p>
+                        <p class="card-text mb-1">Level: @pet.Level</p>
+                        <p class="card-text mb-3">State: @pet.State</p>
+
+                        <a asp-controller="Pet" asp-action="Details" asp-route-id="@pet.Id" class="btn btn-primary">Details</a>
+                    </div>
+                </div>
+            </div>
+       }
+   </div>
+}
