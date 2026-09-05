@@ -19,7 +19,7 @@ namespace VirtualPet.Application.Services
 
 
         public PetApplicationService(IPetRepository petRepository, IUserRepository userRepository, 
-                                        IPetHistoryRepository petHistoryRepository, PetEvolutionService petEvolutionService,)
+                                        IPetHistoryRepository petHistoryRepository, PetEvolutionService petEvolutionService)
         {
             _petRepository = petRepository ?? throw new ArgumentNullException(nameof(petRepository));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
@@ -46,7 +46,7 @@ namespace VirtualPet.Application.Services
 
             await _petRepository.AddAsync(pet, cancellationToken);
 
-            var history = new PetHistory(pet.Id, PetHistoryType.Create, $"Pet '{pet.Name} was created.'");
+            var history = new PetHistory(pet.Id, PetHistoryType.Create, $"Pet '{pet.Name}' was created.");
 
             await _petHistoryRepository.AddAsync(history, cancellationToken);
 
@@ -89,10 +89,10 @@ namespace VirtualPet.Application.Services
 
             var evolved = _petEvolutionService.TryEvolve(pet);
 
-            await _petRepository.SaveChangesAsync(cancellationToken);
-
             var history = new PetHistory(pet.Id, PetHistoryType.Feed, $"Fed pet '{pet.Name}'.");
             await _petHistoryRepository.AddAsync(history, cancellationToken);
+
+            await _petRepository.SaveChangesAsync(cancellationToken);
 
             return new PetActionResultDto
             {

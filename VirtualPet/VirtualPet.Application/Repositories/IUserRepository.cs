@@ -6,8 +6,8 @@ namespace VirtualPet.Application.Repositories
     {
         Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
-        Task AddAsync(User user, CancellationToken = default);
+        Task AddAsync(User user, CancellationToken cancellationToken= default);
 
-        Task SaveChangesAsync(CancellationToken = default);
+        Task SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

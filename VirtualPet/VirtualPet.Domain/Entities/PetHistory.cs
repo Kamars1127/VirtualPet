@@ -35,7 +35,7 @@ namespace VirtualPet.Domain.Entities
         /// <summary>
         /// 所屬 Pet
         /// </summary>
-        public Pet pet { get; private set; } = null;
+        public Pet Pet { get; private set; } = null!;
 
         private PetHistory()
         {

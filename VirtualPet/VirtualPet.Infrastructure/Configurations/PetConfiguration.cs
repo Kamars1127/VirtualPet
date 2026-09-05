@@ -29,7 +29,7 @@ namespace VirtualPet.Infrastructure.Configurations
             });
 
             builder.HasMany(pet => pet.Histories)
-                .WithOne(history => history.pet)
+                .WithOne(history => history.Pet)
                 .HasForeignKey(history => history.PetId)
                 .OnDelete(DeleteBehavior.Cascade);
         }

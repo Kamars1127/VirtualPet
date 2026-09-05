@@ -98,6 +98,7 @@ namespace VirtualPet.Domain.Entities
             }
 
             Id = Guid.NewGuid();
+            UserId = userId;
             Name = name;
             Species = species;
             Level = 1;

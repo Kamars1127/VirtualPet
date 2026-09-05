@@ -12,7 +12,11 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<VirtualPetDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("VirtualPetDatabase")));
 builder.Services.AddScoped<IPetRepository, PetRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPetHistoryRepository, PetHistoryRepository>();
+
 builder.Services.AddScoped<PetApplicationService>();
+builder.Services.AddScoped<UserApplicationService>();
 builder.Services.AddSingleton<PetEvolutionService>();
 
 var app = builder.Build();

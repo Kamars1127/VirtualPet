@@ -1,4 +1,5 @@
-﻿using VirtualPet.Application.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using VirtualPet.Application.Repositories;
 using VirtualPet.Domain.Entities;
 using VirtualPet.Infrastructure.Data;
 
@@ -15,19 +16,19 @@ namespace VirtualPet.Infrastructure.Repositories
 
         public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _dbContext
+            return await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id, cancellationToken);
         }
 
-        public Task AddAsync(User user, CancellationToken  = default)
+        public async Task AddAsync(User user, CancellationToken cancellation = default)
         {
-            throw new NotImplementedException();
+            ArgumentNullException.ThrowIfNull(user);
+
+            await _dbContext.Users.AddAsync(user, cancellation);
         }
 
-        
-
-        public Task SaveChangesAsync(CancellationToken  = default)
+        public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            await _dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }
