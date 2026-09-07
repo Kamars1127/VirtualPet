@@ -4,7 +4,7 @@ using VirtualPet.Web.Models.Pets;
 
 namespace VirtualPet.Web.Controllers
 {
-    public class PetController : Controller
+    public sealed class PetController : Controller
     {
         private readonly PetApplicationService _petApplicationService;
 
@@ -37,5 +37,40 @@ namespace VirtualPet.Web.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Feed(Guid id, CancellationToken cancellationToken)
+        {
+            await _petApplicationService.FeedPetAsync(id, cancellationToken);
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Play(Guid id, CancellationToken cancellationToken)
+        {
+            await _petApplicationService.PlayWithPetAsync(id, cancellationToken);
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Rest(Guid id, CancellationToken cancellationToken)
+        {
+            await _petApplicationService.RestPetAsync(id, cancellationToken);
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> GainExperience(Guid id, CancellationToken cancellationToken)
+        {
+            await _petApplicationService.GainExperienceAsync(id, 25, cancellationToken);
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
     }
 }
