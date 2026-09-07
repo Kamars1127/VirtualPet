@@ -30,5 +30,12 @@ namespace VirtualPet.Application.Services
 
             return user is null ? null : UserMapper.ToDto(user);
         }
+
+        public async Task<IReadOnlyList<UserDto>> GetUsersAsync(CancellationToken cancellationToken = default)
+        {
+            var users = await _userRepository.GetAllAsync(cancellationToken);
+
+            return users.Select(UserMapper.ToDto).ToList();
+        }
     }
 }

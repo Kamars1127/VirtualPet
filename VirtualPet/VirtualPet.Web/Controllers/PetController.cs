@@ -7,10 +7,12 @@ namespace VirtualPet.Web.Controllers
     public sealed class PetController : Controller
     {
         private readonly PetApplicationService _petApplicationService;
+        private readonly UserApplicationService _userApplicationService;
 
-        public PetController(PetApplicationService petApplicationService)
+        public PetController(PetApplicationService petApplicationService, UserApplicationService userApplicationService)
         {
             _petApplicationService = petApplicationService ?? throw new ArgumentNullException(nameof(petApplicationService));
+            _userApplicationService = userApplicationService ?? throw new ArgumentNullException(nameof(userApplicationService));
         }
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
@@ -71,6 +73,32 @@ namespace VirtualPet.Web.Controllers
             await _petApplicationService.GainExperienceAsync(id, 25, cancellationToken);
 
             return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Create(CancellationToken cancellationToken)
+        {
+            var users = await _userApplicationService.GetUsersAsync(cancellationToken);
+
+            var viewModel = new CreatePetViewModel { Users = users };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CreatePetViewModel model, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Users = await _userApplicationService.GetUsersAsync(cancellationToken);
+
+                return View(model);
+            }
+
+            var pet = await _petApplicationService.CreatePetAsync(model.UserId!.Value, model.Name, model.Species!.Value, cancellationToken);
+
+            return RedirectToAction(nameof(Details), new { id = pet.Id });
         }
     }
 }

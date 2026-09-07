@@ -30,5 +30,13 @@ namespace VirtualPet.Infrastructure.Repositories
         {
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
+
+        public async Task<IReadOnlyList<User>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Users
+                .AsNoTracking()
+                .OrderBy(user => user.CreateAt)
+                .ToListAsync(cancellationToken);
+        }
     }
 }

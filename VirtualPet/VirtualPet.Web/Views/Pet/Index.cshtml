@@ -9,6 +9,8 @@
         <h1>My Pets</h1>
         <p class="text-muted mb-0">查看目前所有虛擬寵物</p>
     </div>
+
+    <a asp-controller="Pet" asp-action="Create" class="btn btn-primary">Create Pet</a>
 </div>
 
 @if(Model.Count == 0)
