@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using VirtualPet.Application.Services;
 using VirtualPet.Web.Models.Pets;
+using VirtualPet.Web.Options;
 
 namespace VirtualPet.Web.Controllers
 {
@@ -8,11 +10,20 @@ namespace VirtualPet.Web.Controllers
     {
         private readonly PetApplicationService _petApplicationService;
         private readonly UserApplicationService _userApplicationService;
+        private readonly PetGameOptions _petGameOptions;
+        private readonly ILogger<PetController> _logger;
 
-        public PetController(PetApplicationService petApplicationService, UserApplicationService userApplicationService)
+
+        public PetController(PetApplicationService petApplicationService, UserApplicationService userApplicationService,
+            IOptions<PetGameOptions> petGameOptions, ILogger<PetController> logger)
         {
             _petApplicationService = petApplicationService ?? throw new ArgumentNullException(nameof(petApplicationService));
             _userApplicationService = userApplicationService ?? throw new ArgumentNullException(nameof(userApplicationService));
+
+            ArgumentNullException.ThrowIfNull(petGameOptions);
+            _petGameOptions = petGameOptions.Value;
+
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
@@ -70,7 +81,9 @@ namespace VirtualPet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> GainExperience(Guid id, CancellationToken cancellationToken)
         {
-            await _petApplicationService.GainExperienceAsync(id, 25, cancellationToken);
+            _logger.LogInformation("Training pet {PetId}.", id);
+
+            await _petApplicationService.GainExperienceAsync(id, _petGameOptions.TrainingExperience, cancellationToken);
 
             return RedirectToAction(nameof(Details), new { id });
         }
@@ -97,6 +110,8 @@ namespace VirtualPet.Web.Controllers
             }
 
             var pet = await _petApplicationService.CreatePetAsync(model.UserId!.Value, model.Name, model.Species!.Value, cancellationToken);
+
+            _logger.LogInformation("Pet {PetId} ({PetName}) was create for user {UserId}.",pet.Id, pet.Name, model.UserId.Value);
 
             return RedirectToAction(nameof(Details), new { id = pet.Id });
         }

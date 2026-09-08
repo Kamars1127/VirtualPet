@@ -1,33 +1,41 @@
-using Microsoft.EntityFrameworkCore;
-using VirtualPet.Application.Repositories;
-using VirtualPet.Application.Services;
-using VirtualPet.Domain.Services;
-using VirtualPet.Infrastructure.Data;
-using VirtualPet.Infrastructure.Repositories;
+using VirtualPet.Web.Exceptions;
+using VirtualPet.Web.Extensions;
+using VirtualPet.Web.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+#region/*--- Add services to the container. ---*/
+
+//MVC
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<VirtualPetDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("VirtualPetDatabase")));
-builder.Services.AddScoped<IPetRepository, PetRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IPetHistoryRepository, PetHistoryRepository>();
+//Application
+builder.Services.AddVirtualPetApplication();
 
-builder.Services.AddScoped<PetApplicationService>();
-builder.Services.AddScoped<UserApplicationService>();
-builder.Services.AddSingleton<PetEvolutionService>();
+//Infrastructure
+builder.Services.AddVirtualPetInfrastructure(builder.Configuration);
+
+//Configuration
+builder.Services.AddOptions<PetGameOptions>().Bind(builder.Configuration.GetSection(PetGameOptions.SectionName))
+    .Validate(options => options.TrainingExperience>0, "PetGame:TrainingExperience must be greater than 0.").ValidateOnStart();
+
+//Exception Handling
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
+#endregion
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+//Global Exception Handler
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 app.UseRouting();
