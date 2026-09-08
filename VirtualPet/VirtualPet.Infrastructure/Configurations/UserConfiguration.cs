@@ -11,6 +11,8 @@ namespace VirtualPet.Infrastructure.Configurations
             builder.ToTable("Users");
             builder.HasKey(user => user.Id);
             builder.Property(user => user.Id).ValueGeneratedNever();
+            builder.Property(user => user.AccountId).IsRequired();
+            builder.HasIndex(user => user.AccountId).IsUnique();
             builder.Property(user => user.Name).IsRequired().HasMaxLength(20);
             builder.Property(user => user.CreateAt).IsRequired();
             builder.HasMany(user => user.Pets)

@@ -19,6 +19,19 @@ namespace VirtualPet.Infrastructure.Repositories
             return await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id, cancellationToken);
         }
 
+        public async Task<User?> GetByAccountIdAsync(Guid accountId, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Users.FirstOrDefaultAsync(user => user.AccountId == accountId, cancellationToken);
+        }
+
+        public async Task<IReadOnlyList<User>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Users
+                .AsNoTracking()
+                .OrderBy(user => user.CreateAt)
+                .ToListAsync(cancellationToken);
+        }
+
         public async Task AddAsync(User user, CancellationToken cancellation = default)
         {
             ArgumentNullException.ThrowIfNull(user);
@@ -29,14 +42,6 @@ namespace VirtualPet.Infrastructure.Repositories
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             await _dbContext.SaveChangesAsync(cancellationToken);
-        }
-
-        public async Task<IReadOnlyList<User>> GetAllAsync(CancellationToken cancellationToken = default)
-        {
-            return await _dbContext.Users
-                .AsNoTracking()
-                .OrderBy(user => user.CreateAt)
-                .ToListAsync(cancellationToken);
         }
     }
 }

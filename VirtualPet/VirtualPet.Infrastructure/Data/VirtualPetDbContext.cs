@@ -1,13 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using VirtualPet.Domain.Entities;
 using VirtualPet.Infrastructure.Configurations;
+using VirtualPet.Infrastructure.Identity;
 
 namespace VirtualPet.Infrastructure.Data
 {
     /// <summary>
     /// VirtualPet 資料庫 DbContext
     /// </summary>
-    public class VirtualPetDbContext : DbContext
+    public class VirtualPetDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public VirtualPetDbContext(DbContextOptions<VirtualPetDbContext> options) : base(options)
         {

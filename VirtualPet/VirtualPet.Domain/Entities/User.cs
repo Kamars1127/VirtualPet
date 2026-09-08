@@ -8,9 +8,14 @@
         private readonly List<Pet> _pets = [];
 
         /// <summary>
-        /// 唯一識別碼
+        /// 玩家 Id
         /// </summary>
         public Guid Id { get; private set; }
+
+        /// <summary>
+        /// 登入帳號 Id
+        /// </summary>
+        public Guid AccountId { get; private set; }
 
         /// <summary>
         /// 名稱
@@ -33,8 +38,13 @@
             Name = string.Empty;
         }
 
-        public User(string name)
+        public User(Guid accountId string name)
         {
+            if(accountId == Guid.Empty)
+            {
+                throw new ArgumentException("Account id cannot be empty.", nameof(accountId));
+            }
+
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException("User name cannot be empty.", nameof(name));
@@ -46,6 +56,7 @@
             }
 
             Id = Guid.NewGuid();
+            AccountId = accountId;
             Name = name;
             CreateAt = DateTime.UtcNow;
         }

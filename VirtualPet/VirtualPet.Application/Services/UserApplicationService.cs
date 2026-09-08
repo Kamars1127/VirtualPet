@@ -14,9 +14,9 @@ namespace VirtualPet.Application.Services
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
-        public async Task<UserDto> CreateUserAsync(string name, CancellationToken cancellationToken = default)
+        public async Task<UserDto> CreateUserAsync(Guid accountId, string name, CancellationToken cancellationToken = default)
         {
-            var user = new User(name);
+            var user = new User(accountId, name);
 
             await _userRepository.AddAsync(user, cancellationToken);
             await _userRepository.SaveChangesAsync(cancellationToken);
@@ -27,6 +27,13 @@ namespace VirtualPet.Application.Services
         public async Task<UserDto?> GetUserAsync(Guid userId, CancellationToken cancellationToken = default)
         {
             var user = await _userRepository.GetByIdAsync(userId, cancellationToken);
+
+            return user is null ? null : UserMapper.ToDto(user);
+        }
+
+        public async Task<UserDto?> GetUserByAccountIdAsync(Guid accountId, CancellationToken cancellationToken = default)
+        {
+            var user = await _userRepository.GetByAccountIdAsync(accountId, cancellationToken);
 
             return user is null ? null : UserMapper.ToDto(user);
         }

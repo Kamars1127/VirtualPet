@@ -15,6 +15,9 @@ builder.Services.AddVirtualPetApplication();
 //Infrastructure
 builder.Services.AddVirtualPetInfrastructure(builder.Configuration);
 
+//Identity
+builder.Services.AddVirtualPetIdentity();
+
 //Configuration
 builder.Services.AddOptions<PetGameOptions>().Bind(builder.Configuration.GetSection(PetGameOptions.SectionName))
     .Validate(options => options.TrainingExperience>0, "PetGame:TrainingExperience must be greater than 0.").ValidateOnStart();
@@ -39,7 +42,7 @@ app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
