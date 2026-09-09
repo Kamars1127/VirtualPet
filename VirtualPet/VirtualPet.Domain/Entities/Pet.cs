@@ -71,9 +71,9 @@ namespace VirtualPet.Domain.Entities
         /// 建立時間
         /// </summary>
         public DateTime CreateAt { get; private set; }
-        
+
         /// <summary>
-        /// 上一次套用時間狀態變化的時間
+        /// 最後一次狀態時間更新
         /// </summary>
         public DateTime LastStatusUpdateAt {  get; private set; }
 
@@ -222,6 +222,38 @@ namespace VirtualPet.Domain.Entities
             }
 
             EvolutionStage = nextStage;
+        }
+
+        /// <summary>
+        /// 根據經過時間更新 Pet 狀態
+        /// </summary>
+        /// <param name="utcNow">目前 UTC 時間</param>
+        /// <returns>狀態是否有發現變化</returns>
+        public bool ApplyTimeProgress(DateTime utcNow)
+        {
+            if(utcNow.Kind != DateTimeKind.Utc)
+            {
+                throw new ArgumentException("Time must be UTC.", nameof(utcNow));
+            }
+
+            if(utcNow <= LastStatusUpdateAt)
+            {
+                return false;
+            }
+
+            var elapsed = utcNow - LastStatusUpdateAt;
+            var elapsedHours = (int)Math.Floor(elapsed.TotalHours);
+
+            if (elapsedHours <= 0) return false;
+
+            Status = Status.Change(
+                satiety: -(SatietyDecayPerHour * elapsedHours),
+                happiness: -(HappinessDecayPerHour * elapsedHours),
+                energy: -(EnergyDecayPerHour * elapsedHours));
+
+            LastStatusUpdateAt = LastStatusUpdateAt.AddHours(elapsedHours);
+
+            return true;
         }
     }
 }

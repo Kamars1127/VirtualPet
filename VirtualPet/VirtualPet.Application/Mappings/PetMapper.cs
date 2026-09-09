@@ -28,7 +28,8 @@ namespace VirtualPet.Application.Mappings
                 Satiety = pet.Status.Satiety,
                 Happiness = pet.Status.Happiness,
                 Energy = pet.Status.Energy,
-                CreateAt = pet.CreateAt
+                CreateAt = pet.CreateAt,
+                LastStatusUpdateAt = pet.LastStatusUpdateAt
             };
         }
     }

@@ -66,5 +66,10 @@ namespace VirtualPet.Application.DTOs
         /// 建立時間
         /// </summary>
         public DateTime CreateAt { get; init; }
+
+        /// <summary>
+        /// 最後一次狀態時間更新
+        /// </summary>
+        public DateTime LastStatusUpdateAt { get; init; }
     }
 }

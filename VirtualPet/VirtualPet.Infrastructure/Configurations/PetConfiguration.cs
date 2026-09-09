@@ -21,6 +21,7 @@ namespace VirtualPet.Infrastructure.Configurations
             builder.Property(p => p.Level).IsRequired();
             builder.Property(p => p.Experience).IsRequired();
             builder.Property(p => p.CreateAt).IsRequired();
+            builder.Property(p => p.LastStatusUpdateAt).IsRequired().HasDefaultValueSql("GETUTCDATE()");
             builder.OwnsOne(p => p.Status, statusBuilder =>
             {
                 statusBuilder.Property(s => s.Satiety).IsRequired();

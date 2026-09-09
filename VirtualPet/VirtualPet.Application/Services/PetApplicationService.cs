@@ -64,6 +64,13 @@ namespace VirtualPet.Application.Services
 
             if(pet is null) return null;
 
+            var changed = pet.ApplyTimeProgress(DateTime.UtcNow);
+
+            if (changed)
+            {
+                await _petRepository.SaveChangesAsync(cancellationToken);
+            }
+
             return PetMapper.ToDto(pet);
         }
 
@@ -73,6 +80,22 @@ namespace VirtualPet.Application.Services
         public async Task<IReadOnlyList<PetDto>> GetPetsAsync(CancellationToken cancellationToken = default)
         {
             var pets = await _petRepository.GetAllAsync(cancellationToken);
+
+            var utcNow = DateTime.UtcNow;
+            var changed = false;
+
+            foreach(var pet in pets)
+            {
+                if (pet.ApplyTimeProgress(utcNow))
+                {
+                    changed = true;
+                }
+            }
+
+            if (changed)
+            {
+                await _petRepository.SaveChangesAsync(cancellationToken);
+            }
 
             return pets.Select(PetMapper.ToDto).ToList();
         }
@@ -84,6 +107,8 @@ namespace VirtualPet.Application.Services
         public async Task<PetActionResultDto> FeedPetAsync(Guid petId, CancellationToken cancellationToken = default)
         {
             var pet = await GetRequiredPetAsync(petId, cancellationToken);
+
+            pet.ApplyTimeProgress(DateTime.UtcNow);
 
             pet.Feed();
 
@@ -108,7 +133,7 @@ namespace VirtualPet.Application.Services
         public async Task<PetActionResultDto> PlayWithPetAsync(Guid petId, CancellationToken cancellationToken = default)
         {
             var pet = await GetRequiredPetAsync(petId, cancellationToken);
-
+            pet.ApplyTimeProgress(DateTime.UtcNow);
             pet.Play();
 
             var evolved = _petEvolutionService.TryEvolve(pet);
@@ -131,7 +156,7 @@ namespace VirtualPet.Application.Services
         public async Task<PetActionResultDto> RestPetAsync(Guid petId, CancellationToken cancellationToken = default)
         {
             var pet = await GetRequiredPetAsync(petId, cancellationToken);
-
+            pet.ApplyTimeProgress(DateTime.UtcNow);
             pet.Rest();
 
             var evolved = _petEvolutionService.TryEvolve(pet);
@@ -156,7 +181,7 @@ namespace VirtualPet.Application.Services
         public async Task<PetActionResultDto> GainExperienceAsync(Guid petId, int experience, CancellationToken cancellationToken = default)
         {
             var pet = await GetRequiredPetAsync(petId, cancellationToken);
-
+            pet.ApplyTimeProgress(DateTime.UtcNow);
             pet.GainExperience(experience);
 
             var evolved = _petEvolutionService.TryEvolve(pet);
@@ -175,6 +200,22 @@ namespace VirtualPet.Application.Services
         public async Task<IReadOnlyList<PetDto>> GetPetsByUserAsync(Guid userId, CancellationToken cancellationToken = default)
         {
             var pets = await _petRepository.GetByUserIdAsync(userId, cancellationToken);
+
+            var utcNow = DateTime.UtcNow;
+            var changed = false;
+
+            foreach(var pet in pets)
+            {
+                if (pet.ApplyTimeProgress(utcNow))
+                {
+                    changed = true;
+                }
+            }
+
+            if (changed)
+            {
+                await _petRepository.SaveChangesAsync(cancellationToken);
+            }
 
             return pets.Select(PetMapper.ToDto).ToList();
         }

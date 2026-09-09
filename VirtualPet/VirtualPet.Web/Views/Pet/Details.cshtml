@@ -39,6 +39,13 @@
                     <div>@Model.Pet.State</div>
                 </div>
 
+                <div class="mb-3">
+                    <strong>Last Status Update</strong>
+                    <div>
+                        @Model.Pet.LastStatusUpdateAt.ToString("yyyy-MM-dd HH:mm:ss") UTC
+                    </div>
+                </div>
+
                 <hr />
 
                 <h4>Status</h4>

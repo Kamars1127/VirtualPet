@@ -24,7 +24,7 @@ namespace VirtualPet.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Pet>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Pets.AsNoTracking().OrderBy(pet => pet.CreateAt).ToListAsync(cancellationToken);
+            return await _dbContext.Pets.OrderBy(pet => pet.CreateAt).ToListAsync(cancellationToken);
         }
 
         public async Task AddAsync(Pet pet, CancellationToken cancellationToken = default)
@@ -42,7 +42,6 @@ namespace VirtualPet.Infrastructure.Repositories
         public async Task<IReadOnlyList<Pet>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Pets
-                .AsNoTracking()
                 .Where(pet => pet.UserId == userId)
                 .OrderBy(pet => pet.CreateAt)
                 .ToListAsync(cancellationToken);
