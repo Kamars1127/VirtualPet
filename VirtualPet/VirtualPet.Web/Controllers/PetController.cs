@@ -63,9 +63,10 @@ namespace VirtualPet.Web.Controllers
         public async Task<IActionResult> Feed(Guid id, CancellationToken cancellationToken)
         {
             await GetOwnedPetAsync(id, cancellationToken);
-            await _petApplicationService.FeedPetAsync(id, cancellationToken);
+            var result = await _petApplicationService.FeedPetAsync(id, cancellationToken);
 
-            return RedirectToAction(nameof(Details), new { id });
+            return CreatePetActionResponse(result, id, $"{result.Pet.Name} 已完成餵食。");
+
         }
 
         [HttpPost]
@@ -73,9 +74,9 @@ namespace VirtualPet.Web.Controllers
         public async Task<IActionResult> Play(Guid id, CancellationToken cancellationToken)
         {
             await GetOwnedPetAsync(id, cancellationToken);
-            await _petApplicationService.PlayWithPetAsync(id, cancellationToken);
+            var result =  await _petApplicationService.PlayWithPetAsync(id, cancellationToken);
 
-            return RedirectToAction(nameof(Details), new { id });
+            return CreatePetActionResponse(result, id, $"{result.Pet.Name} 玩得很開心。");
         }
 
         [HttpPost]
@@ -83,9 +84,9 @@ namespace VirtualPet.Web.Controllers
         public async Task<IActionResult> Rest(Guid id, CancellationToken cancellationToken)
         {
             await GetOwnedPetAsync(id, cancellationToken);
-            await _petApplicationService.RestPetAsync(id, cancellationToken);
+            var result = await _petApplicationService.RestPetAsync(id, cancellationToken);
 
-            return RedirectToAction(nameof(Details), new { id });
+            return CreatePetActionResponse(result, id, $"{result.Pet.Name} 已完成休息。")
         }
 
         [HttpPost]
@@ -95,9 +96,9 @@ namespace VirtualPet.Web.Controllers
             await GetOwnedPetAsync(id, cancellationToken);
             _logger.LogInformation("Training pet {PetId}.", id);
 
-            await _petApplicationService.GainExperienceAsync(id, _petGameOptions.TrainingExperience, cancellationToken);
+            var result =  await _petApplicationService.GainExperienceAsync(id, _petGameOptions.TrainingExperience, cancellationToken);
 
-            return RedirectToAction(nameof(Details), new { id });
+            return CreatePetActionResponse(result, id, $"{result.Pet.Name} 獲得 {_petGameOptions.TrainingExperience} EXP。");
         }
 
         [HttpGet]
@@ -122,6 +123,14 @@ namespace VirtualPet.Web.Controllers
             _logger.LogInformation("Pet {PetId} ({PetName}) was create for user {UserId}.",pet.Id, pet.Name, currentUser.Id);
 
             return RedirectToAction(nameof(Details), new { id = pet.Id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Status(Guid id, CancellationToken cancellationToken)
+        {
+            var pet = await GetOwnedPetAsync(id, cancellationToken);
+
+            return Json(pet);
         }
 
         private async Task<UserDto> GetCurrentUserAsync(CancellationToken cancellationToken)
@@ -160,6 +169,28 @@ namespace VirtualPet.Web.Controllers
             }
 
             return pet;
+        }
+
+        private bool IsAjaxRequest()
+        {
+            return string.Equals(Request.Headers["X-Requested-With"], "XMLHttpRequest", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private IActionResult CreatePetActionResponse(PetActionResultDto result, Guid petId, string message)
+        {
+            if (!IsAjaxRequest())
+            {
+                return RedirectToAction(nameof(Details), new { id = petId });
+            }
+
+            var response = new PetActionAjaxResponse
+            {
+                Pet = result.Pet,
+                Evolved = result.Evolved,
+                Message = message
+            };
+
+            return Json(response);
         }
     }
 }

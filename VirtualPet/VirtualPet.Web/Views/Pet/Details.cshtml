@@ -6,6 +6,7 @@
 
 <div class="mb-4">
     <a asp-controller="Pet" asp-action="Index" class="btn btn-outline-secondary">← Back</a>
+    <div id="pet-action-message" class="alert d-none" role="alert"></div>
 </div>
 
 <div class="row g-4">
@@ -21,27 +22,27 @@
                     </div>
                     <div class="col-md-6">
                         <strong>Evolution Stage</strong>
-                        <div>@Model.Pet.EvolutionStage</div>
+                        <div id="pet-evolution-stage">@Model.Pet.EvolutionStage</div>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <strong>Level</strong>
-                        <div>@Model.Pet.Level</div>
+                        <div id="pet-level">@Model.Pet.Level</div>
                     </div>
                     <div class="col-md-6">
                         <strong>Experience</strong>
-                        <div>@Model.Pet.Experience / 100</div>
+                        <div id="pet-experience">@Model.Pet.Experience / 100</div>
                     </div>
                 </div>
                 <div class="mb-3">
                     <strong>State</strong>
-                    <div>@Model.Pet.State</div>
+                    <div id="pet-state">@Model.Pet.State</div>
                 </div>
 
                 <div class="mb-3">
                     <strong>Last Status Update</strong>
-                    <div>
+                    <div id="pet-last-status-update">
                         @Model.Pet.LastStatusUpdateAt.ToString("yyyy-MM-dd HH:mm:ss") UTC
                     </div>
                 </div>
@@ -146,3 +147,5 @@
         }
     </div>
 </div>
+
+<div id="pet-details" data-status-url="@Url.Action("Status","Pet",new{id = Model.Pet.Id})"></div>
