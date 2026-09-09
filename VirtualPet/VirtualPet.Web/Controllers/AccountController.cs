@@ -95,6 +95,12 @@ namespace VirtualPet.Web.Controllers
 
             var result = await _signInManager.PasswordSignInAsync(model.Email.Trim(), model.Password, model.RememberMe, lockoutOnFailure: false);
 
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid email or password.");
+                return View(model);
+            }
+
             _logger.LogInformation("User {Email} logged in.", model.Email);
 
             if(!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))

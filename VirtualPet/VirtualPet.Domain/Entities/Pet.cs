@@ -1,4 +1,5 @@
-﻿using VirtualPet.Domain.Enums;
+﻿using System.Dynamic;
+using VirtualPet.Domain.Enums;
 using VirtualPet.Domain.Exceptions;
 using VirtualPet.Domain.ValueObjects;
 
@@ -9,7 +10,12 @@ namespace VirtualPet.Domain.Entities
     /// </summary>
     public class Pet
     {
+        private const int SatietyDecayPerHour = 5;
+        private const int HappinessDecayPerHour = 2;
+        private const int EnergyDecayPerHour = 3;
+
         private readonly List<PetHistory> _histories = [];
+
 
         /// <summary>
         /// 唯一識別碼
@@ -66,6 +72,11 @@ namespace VirtualPet.Domain.Entities
         /// </summary>
         public DateTime CreateAt { get; private set; }
         
+        /// <summary>
+        /// 上一次套用時間狀態變化的時間
+        /// </summary>
+        public DateTime LastStatusUpdateAt {  get; private set; }
+
         #endregion
 
         /// <summary>
@@ -107,13 +118,11 @@ namespace VirtualPet.Domain.Entities
 
             State = PetState.Idle;
 
-            Status = new PetStatusValue(
-                satiety: 0,
-                happiness: 0,
-                energy: 0);
+            Status = new PetStatusValue(satiety: 100, happiness: 100,energy: 100);
 
             
             CreateAt = DateTime.UtcNow;
+            LastStatusUpdateAt = CreateAt;
         }
 
 

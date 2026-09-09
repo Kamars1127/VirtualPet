@@ -38,7 +38,7 @@
             Name = string.Empty;
         }
 
-        public User(Guid accountId string name)
+        public User(Guid accountId, string name)
         {
             if(accountId == Guid.Empty)
             {
