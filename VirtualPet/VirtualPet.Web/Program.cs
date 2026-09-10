@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using VirtualPet.Web.Exceptions;
 using VirtualPet.Web.Extensions;
 using VirtualPet.Web.Options;
@@ -7,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 #region/*--- Add services to the container. ---*/
 
 //MVC
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 //Application
 builder.Services.AddVirtualPetApplication();

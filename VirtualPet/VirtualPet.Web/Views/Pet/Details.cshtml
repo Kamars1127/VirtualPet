@@ -32,7 +32,9 @@
                     </div>
                     <div class="col-md-6">
                         <strong>Experience</strong>
-                        <div id="pet-experience">@Model.Pet.Experience / 100</div>
+                        <div>
+							<span id="pet-experience">@Model.Pet.Experience</span> / 100
+						</div>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -156,3 +158,7 @@
 </div>
 
 <div id="pet-details" data-status-url="@Url.Action("Status","Pet",new{id = Model.Pet.Id})"></div>
+
+@section Scripts{
+    <script src="~/js/pet-details.js" asp-append-version="true"></script>
+}

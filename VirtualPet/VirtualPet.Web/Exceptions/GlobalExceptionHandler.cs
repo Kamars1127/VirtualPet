@@ -19,6 +19,7 @@ namespace VirtualPet.Web.Exceptions
             var statusCode = exception switch
             {
                 DomainException => StatusCodes.Status400BadRequest,
+                UnauthorizedAccessException => StatusCodes.Status403Forbidden,
                 KeyNotFoundException => StatusCodes.Status404NotFound,
                 _ => StatusCodes.Status500InternalServerError
             };
@@ -54,6 +55,7 @@ namespace VirtualPet.Web.Exceptions
             return statusCode switch
             {
                 StatusCodes.Status400BadRequest => "Invalid operation",
+                StatusCodes.Status403Forbidden => "Forbidden",
                 StatusCodes.Status404NotFound => "Resource not found",
                 _ => "Internal server error"
             };

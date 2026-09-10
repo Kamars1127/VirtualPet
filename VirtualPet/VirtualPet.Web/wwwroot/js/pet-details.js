@@ -4,6 +4,8 @@
     forms.forEach(form => {
         form.addEventListener("submit", handlePetAction);
     });
+
+    setInterval(refreshPetStatus, 60_000); //60,000 milliseconds
 });
 
 async function handlePetAction(event) {
@@ -72,13 +74,13 @@ function updateStatus(valueId, barId, value) {
 function formatUtcDate(value) {
     const date = new Date(value);
     const year = date.getUTCFullYear();
-    const moth = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
     const day = String(date.getUTCDate()).padStart(2, "0");
     const hour = String(date.getUTCHours()).padStart(2, "0");
     const minute = String(date.getUTCMinutes()).padStart(2, "0");
     const second = String(date.getUTCSeconds()).padStart(2, "0");
 
-    return `${year}-${moth}-${day} ${hour}:${minute}:${second} UTC`;
+    return `${year}-${month}-${day} ${hour}:${minute}:${second} UTC`;
 }
 
 function showMessage(message, type) {
@@ -86,4 +88,27 @@ function showMessage(message, type) {
     messageElement.textContent = message;
     messageElement.className = `alert alert-${type}`;
     messageElement.classList.remove("d-none");
+}
+
+async function refreshPetStatus() {
+    const petDetails = document.getElementById("pet-details");
+
+    if (!petDetails) return;
+
+    const statusUrl = petDetails.dataset.statusUrl;
+
+    if (!statusUrl) return;
+
+    try {
+        const response = await fetch(statusUrl);
+
+        if (!response.ok) return;
+
+        const pet = await response.json();
+
+        updatePet(pet);
+    }
+    catch {
+
+    }
 }

@@ -45,8 +45,6 @@ namespace VirtualPet.Web.Controllers
         {
             var pet = await GetOwnedPetAsync(id, cancellationToken); 
 
-            if (pet is null) return NotFound();
-
             var histories = await _petApplicationService.GetPetHistoriesAsync(id, cancellationToken);
 
             var viewModel = new PetDetailsViewModel
