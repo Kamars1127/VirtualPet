@@ -86,7 +86,7 @@ namespace VirtualPet.Web.Controllers
             await GetOwnedPetAsync(id, cancellationToken);
             var result = await _petApplicationService.RestPetAsync(id, cancellationToken);
 
-            return CreatePetActionResponse(result, id, $"{result.Pet.Name} 已完成休息。")
+            return CreatePetActionResponse(result, id, $"{result.Pet.Name} 已完成休息。");
         }
 
         [HttpPost]

@@ -54,30 +54,37 @@
                 <div class="mb-3">
                     <div class="d-flex justify-content-between">
                         <span>Satiety</span>
-                        <span>@Model.Pet.Satiety / 100</span>
+
+                        <span>
+                            <span id="pet-satiety">@Model.Pet.Satiety</span> / 100
+                        </span>
                     </div>
                     <div class="progress">
-                        <div class="progress-bar" style="width: @Model.Pet.Satiety%"></div>
+                        <div id="pet-satiety-bar" class="progress-bar" style="width: @Model.Pet.Satiety%"></div>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <div class="d-flex justify-content-between">
                         <span>Happiness</span>
-                        <span>@Model.Pet.Happiness / 100</span>
+                        <span>
+                            <span id="pet-happiness">@Model.Pet.Happiness</span> / 100
+                        </span>
                     </div>
                     <div class="progress">
-                        <div class="progress-bar" style="width: @Model.Pet.Happiness%"></div>
+                        <div id="pet-happiness-bar" class="progress-bar" style="width: @Model.Pet.Happiness%"></div>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <div class="d-flex justify-content-between">
                         <span>Energy</span>
-                        <span>@Model.Pet.Energy / 100</span>
+                        <span>
+                            <span id="pet-energy">@Model.Pet.Energy</span> / 100
+                        </span>
                     </div>
                     <div class="progress">
-                        <div class="progress-bar" style="width: @Model.Pet.Energy%"></div>
+                        <div id="pet-energy-bar" class="progress-bar" style="width: @Model.Pet.Energy%"></div>
                     </div>
                 </div>
             </div>
@@ -90,19 +97,19 @@
             <h4>Actions</h4>
 
             <div class="d-grid gap-2">
-                <form asp-controller="Pet" asp-action="Feed" asp-route-id="@Model.Pet.Id" method="post">
+                <form asp-controller="Pet" asp-action="Feed" asp-route-id="@Model.Pet.Id" method="post" class="js-pet-action">
                     <button type="submit" class="btn btn-success w-100">Feed</button>
                 </form>
 
-                <form asp-controller="Pet" asp-action="Play" asp-route-id="@Model.Pet.Id" method="post">
+                <form asp-controller="Pet" asp-action="Play" asp-route-id="@Model.Pet.Id" method="post" class="js-pet-action">
                     <button type="submit" class="btn btn-primary w-100">Play</button>
                 </form>
 
-                <form asp-controller="Pet" asp-action="Rest" asp-route-id="@Model.Pet.Id" method="post">
+                <form asp-controller="Pet" asp-action="Rest" asp-route-id="@Model.Pet.Id" method="post" class="js-pet-action">
                     <button type="submit" class="btn btn-secondary w-100">Rest</button>
                 </form>
 
-                <form asp-controller="Pet" asp-action="GainExperience" asp-route-id="@Model.Pet.Id" method="post">
+                <form asp-controller="Pet" asp-action="GainExperience" asp-route-id="@Model.Pet.Id" method="post" class="js-pet-action">
                     <button type="submit" class="btn btn-warning w-100">Train (+25 EXP)</button>
                 </form>
             </div>
