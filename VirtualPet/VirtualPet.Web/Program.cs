@@ -13,6 +13,9 @@ builder.Services.AddControllersWithViews().AddJsonOptions(options =>
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
+//OpenAPI
+builder.Services.AddOpenApi();
+
 //Application
 builder.Services.AddVirtualPetApplication();
 
@@ -41,6 +44,11 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
+
 //Global Exception Handler
 app.UseExceptionHandler();
 
@@ -50,7 +58,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
-
+app.MapControllers();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
