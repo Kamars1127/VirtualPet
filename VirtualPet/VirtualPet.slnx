@@ -5,5 +5,8 @@
     <Project Path="VirtualPet.Infrastructure/VirtualPet.Infrastructure.csproj" />
     <Project Path="VirtualPet.Web/VirtualPet.Web.csproj" Id="ab8926ff-3951-4571-b32e-08b4a362b311" />
   </Folder>
-  <Folder Name="/tests/" />
+  <Folder Name="/tests/">
+    <Project Path="VirtualPet.Domain.Tests/VirtualPet.Domain.Tests.csproj" Id="57238064-f6ce-45e0-95e1-df8c3ff4eead" />
+    <Project Path="VirtualPet.Web.IntegrationTests/VirtualPet.Web.IntegrationTests.csproj" Id="79ce3503-da0b-4049-af37-09676e2474b4" />
+  </Folder>
 </Solution>

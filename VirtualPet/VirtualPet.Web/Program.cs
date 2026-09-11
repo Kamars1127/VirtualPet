@@ -33,6 +33,9 @@ builder.Services.AddOptions<PetGameOptions>().Bind(builder.Configuration.GetSect
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
+//Health Check
+builder.Services.AddHealthChecks();
+
 #endregion
 
 var app = builder.Build();
@@ -58,6 +61,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.MapHealthChecks("/health");
+
 app.MapControllers();
 app.MapControllerRoute(
     name: "default",
@@ -66,3 +72,5 @@ app.MapControllerRoute(
 
 
 app.Run();
+
+public partial class Program { }

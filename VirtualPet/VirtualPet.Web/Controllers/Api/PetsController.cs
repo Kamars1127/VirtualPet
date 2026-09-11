@@ -144,7 +144,7 @@ namespace VirtualPet.Web.Controllers.Api
             return Ok(CreateActionResponse(result, $"{result.Pet.Name} 玩得很開心。"));
         }
 
-        [HttpPost("{id:guid/rest}")]
+        [HttpPost("{id:guid}/rest")]
         public async Task<ActionResult<PetActionResponse>> Rest(Guid id, CancellationToken cancellationToken)
         {
             await GetOwnedPetAsync(id, cancellationToken);
