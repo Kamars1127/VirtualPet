@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using VirtualPet.Infrastructure.Data;
 using VirtualPet.Web.Exceptions;
 using VirtualPet.Web.Extensions;
 using VirtualPet.Web.Options;
@@ -39,6 +41,17 @@ builder.Services.AddHealthChecks();
 #endregion
 
 var app = builder.Build();
+
+//Auto Migration
+if (app.Configuration.GetValue<bool>("Database:ApplyMigrations"))
+{
+    using var scope = app.Services.CreateScope();
+
+    var dbContext = scope.ServiceProvider.GetRequiredService<VirtualPetDbContext>();
+
+    await dbContext.Database.MigrateAsync();
+}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

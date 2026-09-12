@@ -81,7 +81,7 @@ namespace VirtualPet.Domain.Tests.Entities
             Assert.Equal(utcNow, pet.LastStatusUpdateAt);
         }
 
-
+        [Fact]
         public void Play_WhenEnergyIsTooLow_ShouldThrowException()
         {
             // Arrange

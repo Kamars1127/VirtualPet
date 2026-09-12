@@ -10,17 +10,17 @@ namespace VirtualPet.Domain.Tests.Services
         public void TryEvolve_WhenPetMeetsEggRule_ShouldEvolveToBaby()
         {
             // Arrange
-            var pet = new Pet(Guid.NewGuid(), "Mochi", Enums.PetSpecies.Cat);
+            var pet = new Pet(Guid.NewGuid(), "Mochi", PetSpecies.Cat);
 
             pet.GainExperience(100);
 
             var service = new PetEvolutionService();
 
             // Act
-            var evoled = service.TryEvolve(pet);
+            var evolved = service.TryEvolve(pet);
 
             // Assert
-            Assert.True(evoled);
+            Assert.True(evolved);
             Assert.Equal(PetEvolutionStage.Baby, pet.EvolutionStage);
         }
 

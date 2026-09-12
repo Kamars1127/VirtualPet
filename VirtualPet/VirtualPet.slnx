@@ -1,5 +1,7 @@
 <Solution>
   <Folder Name="/src/">
+    <File Path=".dockerignore" />
+    <File Path="Dockerfile" />
     <Project Path="VirtualPet.Application/VirtualPet.Application.csproj" />
     <Project Path="VirtualPet.Domain/VirtualPet.Domain.csproj" />
     <Project Path="VirtualPet.Infrastructure/VirtualPet.Infrastructure.csproj" />

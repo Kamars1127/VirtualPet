@@ -1,0 +1,47 @@
+services:
+  # =========================================================
+  # SQL Server
+  # =========================================================
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
+    ports:
+      # 開發階段方便用 SSMS / Azure Data Studio 從主機連線除錯。
+      # 正式環境不需要對外開放資料庫，可以整段拿掉，
+      # 讓 sqlserver 只在 Docker network 內部被 virtualpet-web 存取。
+      - "1433:1433"
+    volumes:
+      - virtualpet-sql-data:/var/opt/mssql
+    healthcheck:
+      test: [ "CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$${MSSQL_SA_PASSWORD}\" -C -Q \"SELECT 1\" || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  # =========================================================
+  # ASP.NET Core Web API
+  # =========================================================
+  virtualpet-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      # Key 名稱對應 appsettings.json 的 ConnectionStrings:VirtualPetDatabase
+      # Server 用服務名稱 "sqlserver"，Docker 內建 DNS 會解析成該容器的位址
+      ConnectionStrings__VirtualPetDatabase: "Server=sqlserver,1433;Database=VirtualPetDb;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True"
+      PetGame__TrainingExperience: "25"
+      # 對應 Program.cs 裡讀取的 Database:ApplyMigrations
+      # 設為 true 時，容器啟動會自動執行 dbContext.Database.Migrate()
+      Database__ApplyMigrations: "true"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+
+volumes:
+  virtualpet-sql-data:
