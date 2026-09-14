@@ -1,9 +1,10 @@
 # VirtualPet
+
 VirtualPet 是一個使用 ASP.NET Core 10 開發的虛擬寵物養成 Web Side Project。
 專案使用 ASP.NET Core MVC、Razor View、Entity Framework Core、SQL Server 與 ASP.NET Core Identity，實作玩家登入、寵物養成、狀態變化、進化規則、AJAX 即時互動與操作紀錄。
 本專案主要用來練習 ASP.NET Core Web Application 的完整開發流程，以及分層架構、Domain Model、Repository、Testing 與 Docker。
----
 
+---
 ## 技術
 -  C# / .NET 10
 -  ASP.NET Core MVC
@@ -14,8 +15,8 @@ VirtualPet 是一個使用 ASP.NET Core 10 開發的虛擬寵物養成 Web Side 
 -  SQL Server
 -  xUnit
 -  Docker / Docker Compose
----
 
+---
 ## 主要功能
 -  玩家註冊、登入與登出
 -  建立與管理寵物
@@ -32,11 +33,16 @@ VirtualPet 是一個使用 ASP.NET Core 10 開發的虛擬寵物養成 Web Side 
 ---
 
 ## 專案架構
-VirtualPet 
-├─ VirtualPet.Domain 
-├─ VirtualPet.Application 
-├─ VirtualPet.Infrastructure 
-├─ VirtualPet.Web 
-├─ texts
-     ├─VirtualPet.Domain.Tests
-     └─ VirtualPet.Web.IntegrationTests
+```text
+VirtualPet/
+├── src/
+│   ├── VirtualPet.Domain/
+│   ├── VirtualPet.Application/
+│   ├── VirtualPet.Infrastructure/
+│   └── VirtualPet.Web/
+└── tests/
+    ├── VirtualPet.Domain.Tests/
+    └── VirtualPet.Web.IntegrationTests/
+```
+
+---
