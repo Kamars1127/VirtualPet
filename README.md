@@ -61,5 +61,10 @@ VirtualPet/
 &nbsp;&nbsp;&nbsp;&nbsp;Name、Species、Evolution Stage、Level、Experience、Satiety、Happiness、Energy
 
 ### 玩家可以對寵物執行：
-&nbsp;&nbsp;&nbsp;&nbsp;1. Feed Play Rest Training。
+&nbsp;&nbsp;&nbsp;&nbsp;1. Feed Play Rest Training。<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;2. 操作後會更新寵物狀態、記錄 History，並檢查是否符合進化條件。
+
+## 時間系統
+&nbsp;&nbsp;&nbsp;&nbsp;1. 寵物狀態會依照離線時間自動變化。
+&nbsp;&nbsp;&nbsp;&nbsp;2. 系統透過 LastStatusUpdateAt 計算經過時間，再更新：Satiety、Happiness、Energy。
+&nbsp;&nbsp;&nbsp;&nbsp;3. 因此不需要持續執行 Timer 或 Background Job。
