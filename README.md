@@ -85,12 +85,8 @@ VirtualPet/
 ## Docker
 - 專案提供：Dockerfile、docker-compose.yml。
 - 可同時建立：ASP.NET Core Web + SQL Server。
-- 執行：
-```bash
-docker compose up --build
-```
+- 執行：`docker compose up --build`
 。
-
 - 預設網站：http://localhost:8080。
 
 ## 開發目的
