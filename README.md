@@ -73,6 +73,6 @@ VirtualPet/
 - 寵物 Detail 頁面使用 JavaScript Fetch API。
 - 玩家操作 Feed、Play、Rest 或 Training 時，不需要重新載入整個頁面即可更新寵物狀態。
 
-```text
+- ```text
 User Action ↓ AJAX ↓ Controller ↓ Application Service ↓ Domain ↓ JSON ↓ Update UI
 ```
