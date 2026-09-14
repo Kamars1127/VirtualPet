@@ -65,6 +65,14 @@ VirtualPet/
 - 操作後會更新寵物狀態、記錄 History，並檢查是否符合進化條件。
 
 ## 時間系統
--寵物狀態會依照離線時間自動變化。
+- 寵物狀態會依照離線時間自動變化。
 - 系統透過 LastStatusUpdateAt 計算經過時間，再更新：Satiety、Happiness、Energy。
 - 因此不需要持續執行 Timer 或 Background Job。
+
+## AJAX
+- 寵物 Detail 頁面使用 JavaScript Fetch API。
+- 玩家操作 Feed、Play、Rest 或 Training 時，不需要重新載入整個頁面即可更新寵物狀態。
+
+```text
+User Action ↓ AJAX ↓ Controller ↓ Application Service ↓ Domain ↓ JSON ↓ Update UI
+```
