@@ -72,7 +72,25 @@ VirtualPet/
 ## AJAX
 - 寵物 Detail 頁面使用 JavaScript Fetch API。
 - 玩家操作 Feed、Play、Rest 或 Training 時，不需要重新載入整個頁面即可更新寵物狀態。
+- User Action ➝ AJAX ➝ Controller ➝ Application Service ➝ Domain ➝ JSON ➝ Update UI。
 
-- ```text
-User Action ↓ AJAX ↓ Controller ↓ Application Service ↓ Domain ↓ JSON ↓ Update UI
-```
+## Database
+- 使用：SQL Server + Entity Framework Core。
+- 並透過 EF Core Migration 管理 Database Schema。
+
+## Testing
+- 專案包含：VirtualPet.Domain.Tests、VirtualPet.Web.IntegrationTests
+- 使用 xUnit 測試 Domain Logic，以及 ASP.NET Core Web Application 的基本整合行為。
+
+## Docker
+- 專案提供：Dockerfile、docker-compose.yml。
+- 可同時建立：ASP.NET Core Web + SQL Server。
+- 執行：`docker compose up --build、。
+- 預設網站：http://localhost:8080。
+
+## 開發目的
+過去主要開發經驗以 C# Windows Desktop Application 為主，<br/>
+因此透過此專案進一步實作 ASP.NET Core Web 開發，並練習：
+- MVC、Domain Design、Database、Authentication、AJAX、REST API、Testing、Docker。
+<br/><br/>
+將既有的 C# 與應用程式開發經驗延伸至 Web Application。
