@@ -87,7 +87,8 @@ VirtualPet/
 - 可同時建立：ASP.NET Core Web + SQL Server。
 - 執行：`docker compose up --build`
 。
-- 預設網站：http://localhost:8080。
+- 預設網站：`http://localhost:8080`
+- 。
 
 ## 開發目的
 過去主要開發經驗以 C# Windows Desktop Application 為主，因此透過此專案進一步實作 ASP.NET Core Web 開發，並練習：
