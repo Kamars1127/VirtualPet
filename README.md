@@ -56,5 +56,5 @@ VirtualPet/
 - 負責 MVC Controller、Razor View、AJAX、API 與 Web UI。
 
 ## 寵物系統
-### Pet 主要包含：Name
-`Species、Evolution Stage、Level、Experience、Satiety、Happiness、Energy`
+### Pet 主要包含：
+&nbsp;&nbsp;&nbsp;&nbsp;`Name、Species、Evolution Stage、Level、Experience、Satiety、Happiness、Energy`
