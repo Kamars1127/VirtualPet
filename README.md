@@ -85,12 +85,14 @@ VirtualPet/
 ## Docker
 - 專案提供：Dockerfile、docker-compose.yml。
 - 可同時建立：ASP.NET Core Web + SQL Server。
-- 執行：`docker compose up --build、。
+- 執行：
+```bash
+docker compose up --build
+```。
 - 預設網站：http://localhost:8080。
 
 ## 開發目的
-過去主要開發經驗以 C# Windows Desktop Application 為主，<br/>
-因此透過此專案進一步實作 ASP.NET Core Web 開發，並練習：
+過去主要開發經驗以 C# Windows Desktop Application 為主，因此透過此專案進一步實作 ASP.NET Core Web 開發，並練習：
 - MVC、Domain Design、Database、Authentication、AJAX、REST API、Testing、Docker。
-<br/><br/>
+<br/>
 將既有的 C# 與應用程式開發經驗延伸至 Web Application。
