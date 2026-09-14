@@ -89,6 +89,7 @@ VirtualPet/
 ```bash
 docker compose up --build
 ```。
+
 - 預設網站：http://localhost:8080。
 
 ## 開發目的
