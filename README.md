@@ -2,7 +2,7 @@
 
 VirtualPet 是一個使用 ASP.NET Core 10 開發的虛擬寵物養成 Web Side Project。<br/>
 <br/>
-專案使用 ASP.NET Core MVC、Razor View、Entity Framework Core、SQL Server 與 ASP.NET Core Identity，實作玩家登入、寵物養成、狀態變化、進化規則、AJAX 即時互動與操作紀錄。<br/>
+專案使用 ASP.NET Core MVC、Razor View、Entity Framework Core、SQL Server 與 ASP.NET Core Identity，實作玩家登入、寵物養成、狀態變化、進化規則、AJAX 即時互動與操作紀錄。<br/><br/>
 本專案主要用來練習 ASP.NET Core Web Application 的完整開發流程，以及分層架構、Domain Model、Repository、Testing 與 Docker。
 
 
@@ -45,18 +45,21 @@ VirtualPet/
     └── VirtualPet.Web.IntegrationTests/
 ```
 ### Domain
-&nbsp;&nbsp;&nbsp;&nbsp;`負責 Pet、User、Value Object、Domain Behavior、進化規則等核心商業邏輯。`
+&nbsp;&nbsp;&nbsp;&nbsp;負責 Pet、User、Value Object、Domain Behavior、進化規則等核心商業邏輯。
 
 ### Application
-- 負責 Use Case、DTO、Mapping 與 Repository Interface。
+&nbsp;&nbsp;&nbsp;&nbsp;負責 Use Case、DTO、Mapping 與 Repository Interface。
 
 ### Infrastructure
-- 負責 EF Core、SQL Server、Repository、Identity 與 Migration。
+&nbsp;&nbsp;&nbsp;&nbsp;負責 EF Core、SQL Server、Repository、Identity 與 Migration。
 
 ### Web
-- 負責 MVC Controller、Razor View、AJAX、API 與 Web UI。
+&nbsp;&nbsp;&nbsp;&nbsp;負責 MVC Controller、Razor View、AJAX、API 與 Web UI。
 
 ## 寵物系統
 ### Pet 主要包含：
-&nbsp;&nbsp;&nbsp;&nbsp;`Name、Species、Evolution Stage、Level、Experience、Satiety、Happiness、Energy`
+&nbsp;&nbsp;&nbsp;&nbsp;Name、Species、Evolution Stage、Level、Experience、Satiety、Happiness、Energy
+
 ### 玩家可以對寵物執行：
+&nbsp;&nbsp;&nbsp;&nbsp;1. Feed Play Rest Training。
+&nbsp;&nbsp;&nbsp;&nbsp;2. 操作後會更新寵物狀態、記錄 History，並檢查是否符合進化條件。
