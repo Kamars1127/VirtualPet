@@ -45,26 +45,26 @@ VirtualPet/
     └── VirtualPet.Web.IntegrationTests/
 ```
 ### Domain
-&nbsp;&nbsp;&nbsp;&nbsp;負責 Pet、User、Value Object、Domain Behavior、進化規則等核心商業邏輯。
+- 負責 Pet、User、Value Object、Domain Behavior、進化規則等核心商業邏輯。
 
 ### Application
-&nbsp;&nbsp;&nbsp;&nbsp;負責 Use Case、DTO、Mapping 與 Repository Interface。
+- 負責 Use Case、DTO、Mapping 與 Repository Interface。
 
 ### Infrastructure
-&nbsp;&nbsp;&nbsp;&nbsp;負責 EF Core、SQL Server、Repository、Identity 與 Migration。
+- 負責 EF Core、SQL Server、Repository、Identity 與 Migration。
 
 ### Web
-&nbsp;&nbsp;&nbsp;&nbsp;負責 MVC Controller、Razor View、AJAX、API 與 Web UI。
+- 負責 MVC Controller、Razor View、AJAX、API 與 Web UI。
 
 ## 寵物系統
 ### Pet 主要包含：
-&nbsp;&nbsp;&nbsp;&nbsp;Name、Species、Evolution Stage、Level、Experience、Satiety、Happiness、Energy
+- Name、Species、Evolution Stage、Level、Experience、Satiety、Happiness、Energy
 
 ### 玩家可以對寵物執行：
-&nbsp;&nbsp;&nbsp;&nbsp;1. Feed Play Rest Training。<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;2. 操作後會更新寵物狀態、記錄 History，並檢查是否符合進化條件。
+- Feed Play Rest Training。
+- 操作後會更新寵物狀態、記錄 History，並檢查是否符合進化條件。
 
 ## 時間系統
-&nbsp;&nbsp;&nbsp;&nbsp;1. 寵物狀態會依照離線時間自動變化。
-&nbsp;&nbsp;&nbsp;&nbsp;2. 系統透過 LastStatusUpdateAt 計算經過時間，再更新：Satiety、Happiness、Energy。
-&nbsp;&nbsp;&nbsp;&nbsp;3. 因此不需要持續執行 Timer 或 Background Job。
+-寵物狀態會依照離線時間自動變化。
+- 系統透過 LastStatusUpdateAt 計算經過時間，再更新：Satiety、Happiness、Energy。
+- 因此不需要持續執行 Timer 或 Background Job。
